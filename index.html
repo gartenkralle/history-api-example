@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modal Form</title>
+<style>
+  .modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    z-index: 1000;
+  }
+
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+</style>
+</head>
+<body>
+
+<button id="openModalBtn">Open Modal</button>
+
+<div id="modal" class="modal">
+  <h2>Modal Form</h2>
+  <button id="closeModalBtn">Close Modal</button>
+</div>
+
+<div id="overlay" class="overlay"></div>
+
+<script>
+  const openModalBtn = document.getElementById('openModalBtn');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const modal = document.getElementById('modal');
+  const overlay = document.getElementById('overlay');
+
+  function openModal() {
+    modal.style.display = 'block';
+    overlay.style.display = 'block';
+
+    history.pushState({open: true}, null);
+  }
+
+  function closeModal(event) {
+    modal.style.display = 'none';
+    overlay.style.display = 'none';
+
+    if(event.type != 'popstate') {
+      history.back();  
+    }
+  }
+
+  openModalBtn.addEventListener('click', openModal);
+  closeModalBtn.addEventListener('click', closeModal);
+
+  window.addEventListener('popstate', function(event) {
+    closeModal(event);
+  });
+</script>
+
+</body>
+</html>
